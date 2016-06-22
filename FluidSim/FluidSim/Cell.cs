@@ -24,20 +24,25 @@ namespace FluidSim
         /// <returns>
         /// Returns true if the cell didn't change
         /// </returns>
-        public bool Equalize(List<Cell> neighbours, Gas.GasType gasType)
+        public List<Cell> Equalize(List<Cell> neighbours, Gas.GasType gasType)
         {
             bool equalized = false;
             double initPresure = this.gasses[gasType].pressure;
             double pressure = this.gasses[gasType].pressure;
+            double[] initPressures = new double[neighbours.Count];
+            List<Cell> nonEqualized = new List<Cell>();
 
-            foreach (Cell c in neighbours)
+            //foreach (Cell c in neighbours)
+            //{
+            for (int i = 0; i < neighbours.Count; i++)
             {
-                if (!c.gasses.ContainsKey(gasType))
+                if (!neighbours[i].gasses.ContainsKey(gasType))
                 {
-                    c.gasses.Add(gasType, new Gas() { type = gasType, pressure = 0.0 });
+                    neighbours[i].gasses.Add(gasType, new Gas() { type = gasType, pressure = 0.0 });
                 }
 
-                pressure += c.gasses[gasType].pressure;
+                initPressures[i] = neighbours[i].gasses[gasType].pressure;
+                pressure += neighbours[i].gasses[gasType].pressure;
             }
 
             pressure /= (neighbours.Count + 1);
@@ -66,43 +71,16 @@ namespace FluidSim
                 //equalized = (initPresure == pressure);
                 equalized = (Math.Abs(initPresure - pressure) <= Gas.PRECISION);
 
-            }
-            /*
-            // Make sure it still contains this gas
-            if (this.gasses.ContainsKey(g)) 
-            {
-                if (!rhs.gasses.ContainsKey(g))
+                for (int i = 0; i < neighbours.Count; i++)
                 {
-                    rhs.gasses.Add(g, new Gas() { type = g, pressure = 0.0 });
-                }
-
-                if (Math.Abs(this.gasses[g].pressure - rhs.gasses[g].pressure) <= Gas.PRECISION)
-                {
-                    equalized = true;
-                }
-                else
-                {
-                    this.gasses[g].pressure = (this.gasses[g].pressure + rhs.gasses[g].pressure) / 2.0;
-
-                    if (this.gasses[g].pressure < Gas.MIN_PRESSURE)
+                    if (Math.Abs(initPressures[i] - pressure) > Gas.PRECISION)
                     {
-                        equalized = false;
-                        this.gasses.Remove(g);
-                        rhs.gasses.Remove(g);
-                    }
-                    else
-                    {
-                        if (this.gasses[g].pressure > Gas.MAX_PRESSURE)
-                            this.gasses[g].pressure = Gas.MAX_PRESSURE;
-
-                        rhs.gasses[g].pressure = this.gasses[g].pressure;
-
+                        nonEqualized.Add(neighbours[i]);
                         equalized = false;
                     }
                 }
             }
-            */
-            return equalized;
+            return nonEqualized;
         }
     }
 }

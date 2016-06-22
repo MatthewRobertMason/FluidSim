@@ -18,7 +18,7 @@ namespace FluidSim
             Cell voidCell = new Cell(){gasses = new Dictionary<Gas.GasType,Gas>(), neighbours = new List<Cell>()};
 
             int numberOfCells = 0;
-            world = new Cell[50, 50, 50];
+            world = new Cell[20, 20, 20];
 
             for (int z = 0; z < world.GetLength(0); z++)
             {
@@ -59,14 +59,7 @@ namespace FluidSim
                 }
             }
 
-            Console.WriteLine("Number of Cells: " + numberOfCells);
-            //world[0, 0, 0].gasses.Add(Gas.GasType.AIR, new Gas() { pressure = 12000.0, type = Gas.GasType.AIR });
-            Console.WriteLine("Pressure at (0,0,0) frame: " + world[0, 0, 0].gasses[Gas.GasType.AIR].pressure);
-
-            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
-            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
-            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
-            Console.WriteLine();
+            
 
             int frames = 0;
             FluidManager fMan = new FluidManager() { voidCell = voidCell };
@@ -76,6 +69,15 @@ namespace FluidSim
                 fMan.Add(c);
             }
             currentTime = DateTime.Now;
+
+            Console.WriteLine("Number of Cells: " + numberOfCells);
+            //world[0, 0, 0].gasses.Add(Gas.GasType.AIR, new Gas() { pressure = 12000.0, type = Gas.GasType.AIR });
+            Console.WriteLine("Pressure at (0,0,0) frame: " + world[0, 0, 0].gasses[Gas.GasType.AIR].pressure);
+
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
+            Console.WriteLine();
 
             while (fMan.ProcessNodes())
             {

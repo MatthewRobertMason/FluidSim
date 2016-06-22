@@ -38,6 +38,7 @@ namespace FluidSim
         {
             int ammount = Math.Min(MAXNUMBER_TO_PROCESS, cells.Count);
             bool equalized = true;
+            List<Cell> reprocess = new List<Cell>();
 
             if (ammount == 0)
                 return false;
@@ -48,22 +49,22 @@ namespace FluidSim
 
                 foreach (Gas.GasType g in currentCell.gasses.Keys.ToList())
                 {
-                    if (currentCell.Equalize(currentCell.neighbours, g))
+                    if ((reprocess = currentCell.Equalize(currentCell.neighbours, g)).Count == 0)
                     {
                         equalized = true;
                     }
                 }
 
                 // If this cell isn't equalized then add it to be reprocessed
-                if (!equalized)
+                //if (!equalized)
+                //{
+                    
+                //}
+                //cells.Enqueue(currentCell);
+                foreach (Cell n in reprocess)
                 {
-                    cells.Enqueue(currentCell);
-                    foreach (Cell n in currentCell.neighbours)
-                    {
-                        cells.Enqueue(n);
-                    }
+                    cells.Enqueue(n);
                 }
-
                 
             }
             
