@@ -8,7 +8,7 @@ namespace FluidSim
 {
     class FluidManager
     {
-        public const int MAXNUMBER_TO_PROCESS = 600;
+        public const int MAXNUMBER_TO_PROCESS = 60;
         public const int MAX_NUMBER_OF_VOID_TO_PROCESS = 6000;
         Queue<Cell> cells;
         Queue<Cell> voidCells;
@@ -46,9 +46,30 @@ namespace FluidSim
             {
                 currentCell = cells.Dequeue();
 
-                foreach (Cell c in currentCell.neighbours)
+                foreach (Gas.GasType g in currentCell.gasses.Keys.ToList())
                 {
-                    /*
+                    if (currentCell.Equalize(currentCell.neighbours, g))
+                    {
+                        equalized = true;
+                    }
+                }
+
+                // If this cell isn't equalized then add it to be reprocessed
+                if (!equalized)
+                {
+                    cells.Enqueue(currentCell);
+                    foreach (Cell n in currentCell.neighbours)
+                    {
+                        cells.Enqueue(n);
+                    }
+                }
+
+                
+            }
+            
+            return true;
+
+            /*
                     if (c == voidCell)
                     {
                         if (!voidCells.Contains(currentCell))
@@ -58,26 +79,7 @@ namespace FluidSim
                         //equalized = true; 
                     }
                     else */
-                    if (currentCell.Equalize(c))
-                    {
-                        equalized = true;
-                    }
-                    else
-                    {
-                        // If the cell wasn't equalized then add it for processing 
-                        //if (!cells.Contains(c))
-                            cells.Enqueue(c);
-                        //equalized = false;
-                    }
-                }
 
-                // If this cell isn't equalized then add it to be reprocessed
-                if (!equalized)
-                {
-                   // if (!cells.Contains(currentCell))
-                        cells.Enqueue(currentCell);
-                }
-            }
             /*
             // Process void cells
             for (int i = 0; ((i < MAX_NUMBER_OF_VOID_TO_PROCESS) && (voidCells.Count > 0)); i++)
@@ -98,7 +100,6 @@ namespace FluidSim
                 currentCell.gasses.Clear();
             }
                 */
-            return true;
         }
     }
 }
