@@ -48,15 +48,16 @@ namespace FluidSim
 
                 foreach (Cell c in currentCell.neighbours)
                 {
+                    /*
                     if (c == voidCell)
                     {
                         if (!voidCells.Contains(currentCell))
                         {
                             voidCells.Enqueue(currentCell);
-                        }
-                        equalized = true;
+                        } 
+                        //equalized = true; 
                     }
-                    else
+                    else */
                     if (currentCell.Equalize(c))
                     {
                         equalized = true;
@@ -64,18 +65,20 @@ namespace FluidSim
                     else
                     {
                         // If the cell wasn't equalized then add it for processing 
-                        cells.Enqueue(c);
-                        equalized = false;
+                        //if (!cells.Contains(c))
+                            cells.Enqueue(c);
+                        //equalized = false;
                     }
                 }
 
                 // If this cell isn't equalized then add it to be reprocessed
                 if (!equalized)
                 {
-                    cells.Enqueue(currentCell);
+                   // if (!cells.Contains(currentCell))
+                        cells.Enqueue(currentCell);
                 }
             }
-            
+            /*
             // Process void cells
             for (int i = 0; ((i < MAX_NUMBER_OF_VOID_TO_PROCESS) && (voidCells.Count > 0)); i++)
             {
@@ -94,7 +97,7 @@ namespace FluidSim
                 }
                 currentCell.gasses.Clear();
             }
-                
+                */
             return true;
         }
     }
