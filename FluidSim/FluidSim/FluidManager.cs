@@ -8,7 +8,7 @@ namespace FluidSim
 {
     class FluidManager
     {
-        public const int MAXNUMBER_TO_PROCESS = 60;
+        public const int MAXNUMBER_TO_PROCESS = 6000;
         public const int MAX_NUMBER_OF_VOID_TO_PROCESS = 6000;
         Queue<Cell> cells;
         Queue<Cell> voidCells;

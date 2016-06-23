@@ -18,7 +18,7 @@ namespace FluidSim
             Cell voidCell = new Cell(){gasses = new Dictionary<Gas.GasType,Gas>(), neighbours = new List<Cell>()};
 
             int numberOfCells = 0;
-            world = new Cell[5, 5, 5];
+            world = new Cell[10, 10, 10];
 
             for (int z = 0; z < world.GetLength(0); z++)
             {
