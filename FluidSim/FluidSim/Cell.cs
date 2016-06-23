@@ -63,6 +63,7 @@ namespace FluidSim
             }
             else
             {
+                gasses[gasType].pressure = pressure;
                 foreach (Cell c in neighbours)
                 {
                     c.gasses[gasType].pressure = pressure;
