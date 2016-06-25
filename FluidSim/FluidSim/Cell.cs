@@ -10,11 +10,13 @@ namespace FluidSim
     {
         public Dictionary<Gas.GasType, Gas> gasses;
         public List<Cell> neighbours;
+        public Guid owningPocket;
 
         public Cell()
         {
             gasses = new Dictionary<Gas.GasType, Gas>();
             neighbours = new List<Cell>();
+            owningPocket = Guid.Empty;
         }
 
         /// <summary>
@@ -31,6 +33,8 @@ namespace FluidSim
             double pressure = this.gasses[gasType].pressure;
             double[] initPressures = new double[neighbours.Count];
             List<Cell> nonEqualized = new List<Cell>();
+
+            
 
             //foreach (Cell c in neighbours)
             //{

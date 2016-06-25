@@ -18,7 +18,8 @@ namespace FluidSim
             Cell voidCell = new Cell(){gasses = new Dictionary<Gas.GasType,Gas>(), neighbours = new List<Cell>()};
 
             int numberOfCells = 0;
-            world = new Cell[10, 10, 10];
+            //world = new Cell[20, 20, 20];
+            world = new Cell[100, 100, 100];
 
             for (int z = 0; z < world.GetLength(0); z++)
             {
@@ -27,8 +28,8 @@ namespace FluidSim
                     for (int x = 0; x < world.GetLength(2); x++)
                     {
                         world[z,y,x] = new Cell();
-                        //world[z, y, x].gasses.Add(Gas.GasType.AIR, new Gas() { pressure = r.NextDouble(), type = Gas.GasType.AIR });
-                        //world[z, y, x].gasses.Add(Gas.GasType.KEROSENE, new Gas() { pressure = r.NextDouble(), type = Gas.GasType.KEROSENE });
+                        world[z, y, x].gasses.Add(Gas.GasType.AIR, new Gas() { pressure = r.NextDouble(), type = Gas.GasType.AIR });
+                        world[z, y, x].gasses.Add(Gas.GasType.KEROSENE, new Gas() { pressure = r.NextDouble(), type = Gas.GasType.KEROSENE });
 
                         numberOfCells++;
                     }
@@ -48,31 +49,42 @@ namespace FluidSim
 
                         if (y > 0) world[z, y, x].neighbours.Add(world[z, y - 1, x]);
                             //else { if (!world[z, y, x].neighbours.Contains(voidCell)) world[z, y, x].neighbours.Add(voidCell); }
-                        if (y < world.GetLength(0) - 1) world[z, y, x].neighbours.Add(world[z, y + 1, x]);
+                        if (y < world.GetLength(1) - 1) world[z, y, x].neighbours.Add(world[z, y + 1, x]);
                             //else { if (!world[z, y, x].neighbours.Contains(voidCell)) world[z, y, x].neighbours.Add(voidCell); }
 
                         if (x > 0) world[z, y, x].neighbours.Add(world[z, y, x - 1]);
                             //else { if (!world[z, y, x].neighbours.Contains(voidCell)) world[z, y, x].neighbours.Add(voidCell); }
-                        if (x < world.GetLength(0) - 1) world[z, y, x].neighbours.Add(world[z, y, x + 1]);
+                        if (x < world.GetLength(2) - 1) world[z, y, x].neighbours.Add(world[z, y, x + 1]);
                             //else { if (!world[z, y, x].neighbours.Contains(voidCell)) world[z, y, x].neighbours.Add(voidCell); }
                     }
                 }
             }
 
             Console.WriteLine("Number of Cells: " + numberOfCells);
-            world[0, 0, 0].gasses.Add(Gas.GasType.AIR, new Gas() { pressure = 12000.0, type = Gas.GasType.AIR });            
+            //world[0, 0, 0].gasses.Add(Gas.GasType.AIR, new Gas() { pressure = 12000.0, type = Gas.GasType.AIR });            
 
             int frames = 0;
             FluidManager fMan = new FluidManager() { voidCell = voidCell };
-            /*
+
+            Console.WriteLine("Adding Cells");
             foreach (Cell c in world)
             {
                 fMan.Add(c);
             }
-            */
+            Console.WriteLine("Done Adding Cells");
 
-            fMan.Add(world[0,0,0]);
+            Console.WriteLine("Processing");
+            //fMan.Add(world[0,0,0]);
+
+
             currentTime = DateTime.Now;
+
+            //for (int i = 0; i < 1000; i++)
+            //{
+                fMan.Process();
+                frames++;
+            //}
+                
 
             
             Console.WriteLine("Pressure at (0,0,0) frame: " + world[0, 0, 0].gasses[Gas.GasType.AIR].pressure);
@@ -82,21 +94,52 @@ namespace FluidSim
             //Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
             Console.WriteLine();
 
+            /*
             while (fMan.ProcessNodes())
             {
                 frames++;
             }
+            */
+
             double timeTaken = (DateTime.Now - currentTime).TotalSeconds;
             Console.WriteLine();
             Console.WriteLine("Frames taken to process all cells to equilbrium: " + frames);
             Console.WriteLine("Time taken to process all cells to equilbrium: " + timeTaken);
             Console.WriteLine("Seconds per frame: " + (timeTaken/(double)frames));
             Console.WriteLine();
-            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
-            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
-            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(0) - 1)].gasses[Gas.GasType.AIR].pressure);
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(1) - 1), r.Next(world.GetLength(2) - 1)].gasses[Gas.GasType.AIR].pressure);
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(1) - 1), r.Next(world.GetLength(2) - 1)].gasses[Gas.GasType.AIR].pressure);
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(1) - 1), r.Next(world.GetLength(2) - 1)].gasses[Gas.GasType.AIR].pressure);
+
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("Adding more gasses");
+
+            world[0, 0, 0].gasses[Gas.GasType.AIR].pressure += numberOfCells;
+            world[0, 0, 0].gasses[Gas.GasType.KEROSENE].pressure += numberOfCells;
+
+            Console.WriteLine("Adding (0, 0, 0)");
+            fMan.Add(world[0, 0, 0]);
+
+            frames = 0;
+            Console.WriteLine("Processing again");
+            currentTime = DateTime.Now;
+            fMan.Process();
+            frames++;
+
+            timeTaken = (DateTime.Now - currentTime).TotalSeconds;
+            Console.WriteLine();
+            Console.WriteLine("Frames taken to process all cells to equilbrium: " + frames);
+            Console.WriteLine("Time taken to process all cells to equilbrium: " + timeTaken);
+            Console.WriteLine("Seconds per frame: " + (timeTaken / (double)frames));
+            Console.WriteLine();
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(1) - 1), r.Next(world.GetLength(2) - 1)].gasses[Gas.GasType.AIR].pressure);
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(1) - 1), r.Next(world.GetLength(2) - 1)].gasses[Gas.GasType.AIR].pressure);
+            Console.WriteLine("Pressure at random frame: " + world[r.Next(world.GetLength(0) - 1), r.Next(world.GetLength(1) - 1), r.Next(world.GetLength(2) - 1)].gasses[Gas.GasType.AIR].pressure);
             Console.In.ReadLine();
         }
     }
 }
+
 
