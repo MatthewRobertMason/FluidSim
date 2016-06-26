@@ -8,31 +8,23 @@ namespace FluidSim
 {
     class FluidManager
     {
-        public const int MAX_NUMBER_TO_PROCESS = 600000000;
-        //public const int MAX_NUMBER_OF_VOID_TO_PROCESS = 6000;
+        public const int MAX_NUMBER_TO_PROCESS = 600;
 
         HashSet<Cell> cells; // Cells requiring updating
 
-        //LinkedList<Guid> pocketsToUpdate; // gas pockets to update
         HashSet<Guid> pocketsToUpdate;
         Dictionary<Guid, HashSet<Cell>> gasPockets;
-        Dictionary<Guid, HashSet<Cell>> visitedGasPockets; // used in expand gas pocket to keep track of visited cells for current and following cells
-        //Dictionary<Guid, HashSet<Cell>> unvisitedGasPocketCells;
-        //Dictionary<Guid, LinkedList<Cell>> unvisitedGasPocketCells;
+        Dictionary<Guid, HashSet<Cell>> visitedGasPockets; // Used in expand gas pocket to keep track of visited cells for current and following cells
         Dictionary<Guid, Queue<Cell>> unvisitedGasPocketCells;
 
-        //Cell currentCell;
         public Cell voidCell;
 
         public FluidManager()
         {
             cells = new HashSet<Cell>();
             visitedGasPockets = new Dictionary<Guid,HashSet<Cell>>();
-            //unvisitedGasPocketCells = new Dictionary<Guid, HashSet<Cell>>();
-            //unvisitedGasPocketCells = new Dictionary<Guid, LinkedList<Cell>>();
             unvisitedGasPocketCells = new Dictionary<Guid, Queue<Cell>>();
             gasPockets = new Dictionary<Guid, HashSet<Cell>>();
-            //pocketsToUpdate = new LinkedList<Guid>();
             pocketsToUpdate = new HashSet<Guid>();
         }
 
@@ -48,8 +40,6 @@ namespace FluidSim
             if (c.owningPocket != Guid.Empty)
             {
                 set = c.owningPocket;
-                //if (!pocketsToUpdate.Contains(set))
-                //    pocketsToUpdate.AddLast(set);    
                 pocketsToUpdate.Add(set);
             }
             else
@@ -57,16 +47,11 @@ namespace FluidSim
                 set = Guid.NewGuid();
                 gasPockets.Add(set, new HashSet<Cell>());
                 visitedGasPockets.Add(set, new HashSet<Cell>());
-                //unvisitedGasPocketCells.Add(set, new HashSet<Cell>());
-                //unvisitedGasPocketCells.Add(set, new LinkedList<Cell>());
                 unvisitedGasPocketCells.Add(set, new Queue<Cell>());
 
                 c.owningPocket = set;
                 gasPockets[set].Add(c);
 
-                // This is a major slowdown
-                //if (!pocketsToUpdate.Contains(set))
-                //    pocketsToUpdate.AddLast(set);
                 pocketsToUpdate.Add(set);
             }
 
@@ -77,53 +62,30 @@ namespace FluidSim
         /// iterate through the cells and add their neighbours to the current pocket, it is assumed that the pocket exists already
         /// </summary>
         /// <param name="set">The gas pocket that is to be expanded</param>
-        public void ExpandPocket(Guid set)
+        public int ExpandPocket(Guid set)
         {
             if (visitedGasPockets[set].Count == gasPockets[set].Count)
             {
-                //pocketsToUpdate.AddLast(set);
-                return;
+                return 0;
             }
 
             HashSet<Cell> currentPocket = gasPockets[set];
-            //HashSet<Cell> visitedCells;
-            //HashSet<Cell> unvisitedCells;
-            //LinkedList<Cell> unvisitedCells;
             Queue<Cell> unvisitedCells;
             int attempts = 0;
             
-            /*
-            if (visitedGasPockets[set].Count <= 0)
-            {
-                visitedCells = new HashSet<Cell>();
-            }
-            else
-            {
-                visitedCells = visitedGasPockets[set];
-            }
-            */
             if (unvisitedGasPocketCells[set].Count <= 0)
             {
-                //unvisitedCells = new HashSet<Cell>();
-                //unvisitedCells = new LinkedList<Cell>();
                 unvisitedCells = new Queue<Cell>();
+                unvisitedCells.Enqueue(gasPockets[set].First());
             }
             else
             {
                 unvisitedCells = unvisitedGasPocketCells[set];
             }
-
-            //unvisitedCells.AddRange(gasPockets[set].Except(unvisitedCells));
-            //unvisitedCells = new Queue<Cell>(unvisitedCells.Union(gasPockets[set].Except(unvisitedCells)));
-            JoinToQueue(unvisitedCells, unvisitedCells.Union(gasPockets[set].Except(unvisitedCells)));
             
-
             Cell c = null;
-            //while ((attempts < MAX_NUMBER_TO_PROCESS) && (visitedCells.Count() != gasPockets[set].Count()))
             while ((attempts < MAX_NUMBER_TO_PROCESS) && (unvisitedCells.Count() > 0))
             {
-                // TODO: this is a slowdown
-                //c = unvisitedCells.First();
                 c = unvisitedCells.Dequeue();
 
                 foreach (Cell n in c.neighbours)
@@ -134,6 +96,7 @@ namespace FluidSim
                     {
                         n.owningPocket = set;
                         currentPocket.Add(n);
+                        unvisitedCells.Enqueue(n);
                     }
                     else if (n.owningPocket == set)
                     {
@@ -141,16 +104,11 @@ namespace FluidSim
                     }
                     else
                     {
-                        //unvisitedCells = unvisitedCells.Union(unvisitedGasPocketCells[n.owningPocket]).ToList();
-                        //unvisitedCells.AddRange(unvisitedGasPocketCells[n.owningPocket]);
-                        //unvisitedCells = new Queue<Cell>(unvisitedCells.Union(unvisitedGasPocketCells[n.owningPocket]));
                         JoinToQueue(unvisitedCells, unvisitedGasPocketCells[n.owningPocket]);
                         unvisitedCells.Enqueue(n);
                         attempts += joinGasPockets(set, n.owningPocket);
                     }
                 }
-                //unvisitedCells.Remove(c);
-                //unvisitedCells.RemoveFirst();
                 
                 attempts++;
             }
@@ -162,6 +120,8 @@ namespace FluidSim
 
             unvisitedGasPocketCells[set] = unvisitedCells;
             gasPockets[set] = currentPocket;
+
+            return attempts;
         }
 
         public void JoinToQueue(Queue<Cell> lhs, IEnumerable<Cell> rhs)
@@ -196,13 +156,7 @@ namespace FluidSim
             return toReturn;
         }
 
-        /// <summary>
-        /// Update gas pockets and equalize pressure
-        /// </summary>
-        /// <returns>
-        /// Returns true if pockets processed correctly
-        /// </returns>
-        public bool ProcessGasPocket(Guid set)
+        public int ProcessGasPocket(Guid set)
         {
             HashSet<Cell> currentSet = gasPockets[set];
 
@@ -230,7 +184,7 @@ namespace FluidSim
 
             foreach (Cell c in currentSet)
             {
-                foreach (Gas.GasType g in c.gasses.Keys)
+                foreach (Gas.GasType g in gasTotals.Keys)
                 {
                     if (!c.gasses.Keys.Contains(g))
                         c.gasses.Add(g, new Gas() { type = g, pressure = gasTotals[g] });
@@ -239,22 +193,32 @@ namespace FluidSim
                 }
             }
 
-            return true;
+            return currentSet.Count * 2;
         }
-
-        public void Process()
+        
+        public int Process()
         {
             Guid set = Guid.Empty;
+            int stepsTaken = 0;
 
-            if (pocketsToUpdate.Count > 0)
+            while (stepsTaken < MAX_NUMBER_TO_PROCESS)
             {
-                set = pocketsToUpdate.First();
-            }
-            else
-                return;
+                if (pocketsToUpdate.Count > 0)
+                {
+                    set = pocketsToUpdate.First();
+                    if (set == Guid.Empty)
+                        return stepsTaken;
+                }
+                else
+                    break;
 
-            ExpandPocket(set);
-            ProcessGasPocket(set);
+                stepsTaken += ExpandPocket(set);
+            }
+
+            if (stepsTaken < MAX_NUMBER_TO_PROCESS && (set != Guid.Empty))
+                stepsTaken = ProcessGasPocket(set);
+
+            return stepsTaken;
         }
     }
 }

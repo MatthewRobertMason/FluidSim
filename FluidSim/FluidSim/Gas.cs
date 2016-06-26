@@ -10,18 +10,11 @@ namespace FluidSim
     {
         // Enum
         public static int numberOfGasses = 2;
-
         public enum GasType
         {
             AIR,
             KEROSENE
         }
-
-
-        // Class
-        public const double MIN_PRESSURE = 0.001;
-        public const double MAX_PRESSURE = 10000.0;
-        public const double PRECISION = 0.01;
 
         public double pressure;
         public GasType type;
