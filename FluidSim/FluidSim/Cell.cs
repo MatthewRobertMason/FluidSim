@@ -2,21 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 
 namespace FluidSim
 {
-    class Cell
+    public class Cell : ICell
     {
-        public Dictionary<Gas.GasType, Gas> gasses;
-        public List<Cell> neighbours;
-        public Guid owningPocket;
+        public Guid ID { get; set; }
+        public Dictionary<int, double> Gasses { get; set; }
+
+        //public Dictionary<int, float> Gasses { get; set; }
+
+        //private List<Cell> neighbours;
+        public List<ICell> Neighbours
+        {
+            get;
+            set;
+        }
+
+        public Guid OwningPocket { get; set; }
 
         public Cell()
         {
-            gasses = new Dictionary<Gas.GasType, Gas>();
-            neighbours = new List<Cell>();
-            owningPocket = Guid.Empty;
+            Awake();
+        }
+
+        // Use this for initialization
+        void Awake()
+        {
+            ID = Guid.NewGuid();
+            Gasses = new Dictionary<int, double>();
+            Neighbours = new List<ICell>();
+            OwningPocket = Guid.Empty;
         }
     }
 }

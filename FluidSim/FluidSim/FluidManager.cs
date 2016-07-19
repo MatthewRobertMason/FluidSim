@@ -2,30 +2,61 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+//ing System.Threading.Tasks;
 
 namespace FluidSim
 {
-    class FluidManager
+    public class FluidManager
     {
-        public const int MAX_NUMBER_TO_PROCESS = 600;
+        public World world;
 
-        HashSet<Cell> cells; // Cells requiring updating
+        enum ProcessingState
+        {
+            WAITING,
+            EXPAND,
+            CACULATE_TOTALS,
+            APPLYING_AVERAGE,
+            CREATE_POCKET,
+            SPLIT_POCKET,
+            VOID_CELLS
+        }
 
-        HashSet<Guid> pocketsToUpdate;
-        Dictionary<Guid, HashSet<Cell>> gasPockets;
-        Dictionary<Guid, HashSet<Cell>> visitedGasPockets; // Used in expand gas pocket to keep track of visited cells for current and following cells
-        Dictionary<Guid, Queue<Cell>> unvisitedGasPocketCells;
+        public string[] GasTypes;
+
+        public int MAX_NUMBER_TO_PROCESS = 5000;
+
+        private HashSet<Guid> pocketsToUpdate;
+        private Dictionary<Guid, HashSet<ICell>> gasPockets;
+
+        // Used in expand gas pocket to keep track of visited cells for current and following cells
+        private Dictionary<Guid, HashSet<ICell>> visitedGasPockets; 
+        private Dictionary<Guid, Queue<ICell>> unvisitedGasPocketCells;
+        private Dictionary<int, double> currentGasTotals;
+
+        private Guid processingSet;
+        private HashSet<ICell>.Enumerator processingSetEnumerator;
+        private bool processingSetEnumeratorHasNext;
+        private ProcessingState processingState;
 
         public Cell voidCell;
 
         public FluidManager()
         {
-            cells = new HashSet<Cell>();
-            visitedGasPockets = new Dictionary<Guid,HashSet<Cell>>();
-            unvisitedGasPocketCells = new Dictionary<Guid, Queue<Cell>>();
-            gasPockets = new Dictionary<Guid, HashSet<Cell>>();
+            visitedGasPockets = new Dictionary<Guid, HashSet<ICell>>();
+            unvisitedGasPocketCells = new Dictionary<Guid, Queue<ICell>>();
+            gasPockets = new Dictionary<Guid, HashSet<ICell>>();
             pocketsToUpdate = new HashSet<Guid>();
+
+            processingSet = Guid.Empty;
+            processingSetEnumerator = new HashSet<ICell>.Enumerator();
+            processingSetEnumeratorHasNext = false;
+            processingState = ProcessingState.WAITING;
+            currentGasTotals = new Dictionary<int, double>();
+
+
+            GasTypes = new string[2];
+            GasTypes[0] = "";
+            GasTypes[1] = "";
         }
 
         /// <summary>
@@ -33,23 +64,23 @@ namespace FluidSim
         /// </summary>
         /// <param name="c">The Cell you're trying to simulate</param>
         /// <returns>The guid to the set containing the Cell</returns>
-        public Guid Add(Cell c)
+        public Guid Add(ICell c)
         {
             Guid set = new Guid();
 
-            if (c.owningPocket != Guid.Empty)
+            if (c.OwningPocket != Guid.Empty)
             {
-                set = c.owningPocket;
+                set = c.OwningPocket;
                 pocketsToUpdate.Add(set);
             }
             else
             {
                 set = Guid.NewGuid();
-                gasPockets.Add(set, new HashSet<Cell>());
-                visitedGasPockets.Add(set, new HashSet<Cell>());
-                unvisitedGasPocketCells.Add(set, new Queue<Cell>());
+                gasPockets.Add(set, new HashSet<ICell>());
+                visitedGasPockets.Add(set, new HashSet<ICell>());
+                unvisitedGasPocketCells.Add(set, new Queue<ICell>());
 
-                c.owningPocket = set;
+                c.OwningPocket = set;
                 gasPockets[set].Add(c);
 
                 pocketsToUpdate.Add(set);
@@ -69,54 +100,49 @@ namespace FluidSim
                 return 0;
             }
 
-            HashSet<Cell> currentPocket = gasPockets[set];
-            Queue<Cell> unvisitedCells;
+            HashSet<ICell> currentPocket = gasPockets[set];
+            Queue<ICell> unvisitedCells;
             int attempts = 0;
-            
+
             if (unvisitedGasPocketCells[set].Count <= 0)
             {
-                unvisitedCells = new Queue<Cell>();
-                unvisitedCells.Enqueue(gasPockets[set].First());
+                unvisitedCells = new Queue<ICell>();
+                unvisitedCells.Enqueue(HsGetFirst(gasPockets[set]));
             }
             else
             {
                 unvisitedCells = unvisitedGasPocketCells[set];
             }
-            
-            Cell c = null;
-            while ((attempts < MAX_NUMBER_TO_PROCESS) && (unvisitedCells.Count() > 0))
+
+            ICell c = null;
+            while ((attempts < MAX_NUMBER_TO_PROCESS) && (unvisitedCells.Count > 0))
             {
                 c = unvisitedCells.Dequeue();
 
-                foreach (Cell n in c.neighbours)
+                foreach (ICell n in c.Neighbours)
                 {
                     // Tests will need to be added here if I add liquids
 
-                    if (n.owningPocket == Guid.Empty)
+                    if (n.OwningPocket == Guid.Empty)
                     {
-                        n.owningPocket = set;
+                        n.OwningPocket = set;
                         currentPocket.Add(n);
                         unvisitedCells.Enqueue(n);
                     }
-                    else if (n.owningPocket == set)
+                    else if (n.OwningPocket == set)
                     {
                         // This is already part of the set
                     }
                     else
                     {
-                        JoinToQueue(unvisitedCells, unvisitedGasPocketCells[n.owningPocket]);
+                        JoinToQueue(unvisitedCells, unvisitedGasPocketCells[n.OwningPocket]);
                         unvisitedCells.Enqueue(n);
-                        attempts += joinGasPockets(set, n.owningPocket);
+                        attempts += joinGasPockets(set, n.OwningPocket);
                     }
                 }
-                
+
                 attempts++;
             }
-
-            if (unvisitedCells.Count != 0)
-                pocketsToUpdate.Add(set);
-            else
-                pocketsToUpdate.Remove(set);
 
             unvisitedGasPocketCells[set] = unvisitedCells;
             gasPockets[set] = currentPocket;
@@ -124,9 +150,9 @@ namespace FluidSim
             return attempts;
         }
 
-        public void JoinToQueue(Queue<Cell> lhs, IEnumerable<Cell> rhs)
+        public void JoinToQueue(Queue<ICell> lhs, IEnumerable<ICell> rhs)
         {
-            foreach (Cell c in rhs)
+            foreach (ICell c in rhs)
             {
                 lhs.Enqueue(c);
             }
@@ -144,7 +170,7 @@ namespace FluidSim
 
             foreach (Cell c in gasPockets[rhs])
             {
-                c.owningPocket = lhs;
+                c.OwningPocket = lhs;
             }
 
             // Requires logic here to deal with any objects inside rhs that are operating on the pocket
@@ -156,69 +182,239 @@ namespace FluidSim
             return toReturn;
         }
 
-        public int ProcessGasPocket(Guid set)
+        public ICell HsGetFirst(HashSet<ICell> set)
         {
-            HashSet<Cell> currentSet = gasPockets[set];
-
-            Dictionary<Gas.GasType, double> gasTotals = new Dictionary<Gas.GasType, double>();
-            for (int i = 0; i < Gas.numberOfGasses; i++)
-            {
-                gasTotals.Add((Gas.GasType)i, 0.0d);
-            }
-
-            foreach (Cell c in currentSet)
-            {
-                foreach (Gas.GasType g in c.gasses.Keys)
-                {
-                    gasTotals[g] += c.gasses[g].pressure;
-                }
-            }
-
-            foreach (Gas.GasType g in gasTotals.Keys.ToList())
-            {
-                if (gasTotals[g] == 0.0d)
-                    gasTotals.Remove(g);
-                else
-                    gasTotals[g] = gasTotals[g] / (double)currentSet.Count();
-            }
-
-            foreach (Cell c in currentSet)
-            {
-                foreach (Gas.GasType g in gasTotals.Keys)
-                {
-                    if (!c.gasses.Keys.Contains(g))
-                        c.gasses.Add(g, new Gas() { type = g, pressure = gasTotals[g] });
-                    else
-                        c.gasses[g].pressure = gasTotals[g];
-                }
-            }
-
-            return currentSet.Count * 2;
+            HashSet<ICell>.Enumerator e = set.GetEnumerator();
+            e.MoveNext();
+            return e.Current;
         }
-        
+
+        public Guid HsGetFirst(HashSet<Guid> set)
+        {
+            HashSet<Guid>.Enumerator e = set.GetEnumerator();
+            e.MoveNext();
+            return e.Current;
+        }
+
+        public List<int> GasKeysToList(Dictionary<int, double>.KeyCollection keys)
+        {
+            List<int> list = new List<int>();
+            foreach (int g in keys)
+            {
+                list.Add(g);
+            }
+
+            return list;
+        }
+
+        public Cell[] HashSetToArray(HashSet<Cell> hsc)
+        {
+            Cell[] cells = new Cell[hsc.Count];
+            int i = 0;
+            foreach (Cell c in hsc)
+            {
+                cells[i++] = c;
+            }
+            return cells;
+        }
+
+        /// <summary>
+        /// Process a given gas pocket
+        /// </summary>
+        /// <param name="stepsSoFar">The steps so far (if any)</param>
+        /// <returns>The steps taken</returns>
+        public int ProcessGasPocket(int stepsSoFar)
+        {
+            switch (processingState)
+            {
+                case ProcessingState.CACULATE_TOTALS:
+                    {
+                        if (processingSetEnumeratorHasNext == false)
+                        {
+                            processingSetEnumerator = gasPockets[processingSet].GetEnumerator();
+
+                            currentGasTotals = new Dictionary<int, double>();
+                        }
+
+                        if (currentGasTotals.Count == 0)
+                        {
+                            for (int i = 0; i < GasTypes.Count(); i++)
+                            {
+                                currentGasTotals.Add(i, 0.0d);
+                            }
+                        }
+
+                        while ((stepsSoFar++ < MAX_NUMBER_TO_PROCESS) && (processingSetEnumeratorHasNext = processingSetEnumerator.MoveNext()))
+                        {
+                            foreach (int g in processingSetEnumerator.Current.Gasses.Keys)
+                            {
+                                currentGasTotals[g] += processingSetEnumerator.Current.Gasses[g];
+                            }
+                        }
+                        break;
+                    }
+
+                case ProcessingState.APPLYING_AVERAGE:
+                    {
+                        // If we're just starting
+                        if (processingSetEnumeratorHasNext == false) 
+                        {
+                            processingSetEnumerator = gasPockets[processingSet].GetEnumerator();
+
+                            // Also average all of the totals
+                            foreach (int g in currentGasTotals.Keys.ToArray())
+                            {
+                                currentGasTotals[g] = (currentGasTotals[g] / ((double)gasPockets[processingSet].Count));
+                            }
+                        }
+
+                        while ((stepsSoFar++ < MAX_NUMBER_TO_PROCESS) && (processingSetEnumeratorHasNext = processingSetEnumerator.MoveNext()))
+                        {
+                            foreach (int g in currentGasTotals.Keys)
+                            {
+                                if (!processingSetEnumerator.Current.Gasses.ContainsKey(g))
+                                {
+                                    // TODO: Update type = 1 and make sure it has the proper index of the gas array in FluidManager
+                                    processingSetEnumerator.Current.Gasses.Add(g, currentGasTotals[g] );
+                                }
+                                else
+                                    processingSetEnumerator.Current.Gasses[g] = currentGasTotals[g];
+                            }
+                        }
+
+                        break;
+                    }
+            }
+            return stepsSoFar;
+        }
+
+        /// <summary>
+        /// Process Simulation Steps
+        /// </summary>
+        /// <returns>the number of steps performed</returns>
         public int Process()
         {
-            Guid set = Guid.Empty;
             int stepsTaken = 0;
 
-            while (stepsTaken < MAX_NUMBER_TO_PROCESS)
+            switch (processingState)
             {
-                if (pocketsToUpdate.Count > 0)
-                {
-                    set = pocketsToUpdate.First();
-                    if (set == Guid.Empty)
-                        return stepsTaken;
-                }
-                else
-                    break;
+                case ProcessingState.EXPAND:
+                    {
+                        if (stepsTaken < MAX_NUMBER_TO_PROCESS)
+                        {
+                            if ((processingSet == Guid.Empty) && (pocketsToUpdate.Count > 0))
+                            {
+                                processingSet = HsGetFirst(pocketsToUpdate);
 
-                stepsTaken += ExpandPocket(set);
+                                if (processingSet == Guid.Empty)
+                                    return stepsTaken;
+                            }
+
+                            stepsTaken += ExpandPocket(processingSet);
+                        }
+
+                        break;
+                    }
+
+                case ProcessingState.APPLYING_AVERAGE:
+                case ProcessingState.CACULATE_TOTALS:
+                    {
+                        if (stepsTaken < MAX_NUMBER_TO_PROCESS)// && (set != Guid.Empty))
+                        {
+                            if ((processingSet.Equals(Guid.Empty)) && (pocketsToUpdate.Count > 0))
+                            {
+                                processingSet = HsGetFirst(pocketsToUpdate);
+
+                                if (processingSet == Guid.Empty)
+                                    return stepsTaken;
+                            }
+
+                            stepsTaken += ProcessGasPocket(stepsTaken);
+                        }
+                        break;
+                    }
             }
-
-            if (stepsTaken < MAX_NUMBER_TO_PROCESS && (set != Guid.Empty))
-                stepsTaken = ProcessGasPocket(set);
-
             return stepsTaken;
         }
+
+        /// <summary>
+        /// Change the processing state if applicable
+        /// </summary>
+        /// <param name="processed">The number of processed steps last time Process() was called</param>
+        private void TranisitionState(int processed)
+        {
+            switch (processingState)
+            {
+                case ProcessingState.WAITING:
+                    {
+                        processingState = ProcessingState.EXPAND;
+                        break;
+                    }
+
+                case ProcessingState.EXPAND:
+                    {
+                        if (processed < MAX_NUMBER_TO_PROCESS)
+                            processingState = ProcessingState.CACULATE_TOTALS;
+                        break;
+                    }
+
+                case ProcessingState.CACULATE_TOTALS:
+                    {
+                        if (processed <= MAX_NUMBER_TO_PROCESS)
+                            processingState = ProcessingState.APPLYING_AVERAGE;
+                        break;
+                    }
+
+                case ProcessingState.APPLYING_AVERAGE:
+                    {
+                        if (processed <= MAX_NUMBER_TO_PROCESS)
+                            processingState = ProcessingState.WAITING;
+                        break;
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Update is called once per frame, useful for testing frame counts or if you have a special game loop
+        /// </summary>
+        /// <returns>True if there is more work to do, i.e the state machine isn't currently in WAITING</returns>
+        public bool Update()
+        {
+            int processed = Process();
+
+            // I might move this to the ends of the individual stages
+            TranisitionState(processed);
+
+            //Console.Write("Cells Processed: " + processed);
+            if (processingState == ProcessingState.WAITING)
+                return false;
+            else
+                return true;
+        }
+
+        #region Unity/Other Engine Functions
+        
+        /// <summary>
+        /// Use this for initialization, use this method is for use in Unity, or other game engines
+        /// </summary>
+        void Start()
+        {
+
+        }
+
+        /// <summary>
+        /// Update is called once per frame, use this method is for use in Unity, or other game engines probably
+        /// </summary>
+        public void Update(int a)
+        {
+            int processed = Process();
+
+            // I might move this to the ends of the individual stages
+            TranisitionState(processed);
+
+            //Console.Write("Cells Processed: " + processed);
+        }
+        #endregion
+
     }
 }
