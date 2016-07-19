@@ -392,7 +392,7 @@ namespace FluidSim
                 return true;
         }
 
-        #region Unity/Other Engine Functions
+#region Unity/Other Engine Functions
         
         /// <summary>
         /// Use this for initialization, use this method is for use in Unity, or other game engines
@@ -414,7 +414,7 @@ namespace FluidSim
 
             //Console.Write("Cells Processed: " + processed);
         }
-        #endregion
+#endregion
 
     }
 }

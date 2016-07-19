@@ -13,7 +13,7 @@ namespace FluidSim
 
         static void Main(string[] args)
         {
-            world = new World(200, 200, 200);
+            world = new World(100, 100, 100);
 
             Random r = new Random();
             DateTime currentTime;
