@@ -1,6 +1,6 @@
 var NAVTREE =
 [
-  [ "FuidSim", "index.html", [
+  [ "FluidSim", "index.html", [
     [ "Packages", null, [
       [ "Packages", "namespaces.html", "namespaces" ]
     ] ],
