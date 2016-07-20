@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="FluidManager.cs" />
-    <Compile Include="Gas.cs" />
     <Compile Include="ICell.cs" />
     <Compile Include="IWorld.cs" />
     <Compile Include="Program.cs" />
