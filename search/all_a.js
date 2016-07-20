@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['neighbours',['Neighbours',['../class_fluid_sim_1_1_cell.html#a22ea78ac3207cc7b1f51ad01c54a240f',1,'FluidSim.Cell.Neighbours()'],['../interface_fluid_sim_1_1_i_cell.html#a6734d7af02b09f868d859ec8dc64427e',1,'FluidSim.ICell.Neighbours()']]],
-  ['numberofgasses',['numberOfGasses',['../class_fluid_sim_1_1_gas.html#aae84571c216e785897abc6aaaf30d62d',1,'FluidSim::Gas']]]
+  ['owningpocket',['OwningPocket',['../class_fluid_sim_1_1_cell.html#a42ea61ea8023dd917241edaa9c23bc35',1,'FluidSim.Cell.OwningPocket()'],['../interface_fluid_sim_1_1_i_cell.html#a5643bae79c4f918c6227c72b85c738af',1,'FluidSim.ICell.OwningPocket()']]]
 ];

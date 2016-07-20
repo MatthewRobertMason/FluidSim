@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['type',['type',['../class_fluid_sim_1_1_gas.html#a5fd978e4a1c111bb7a936263df211b27',1,'FluidSim::Gas']]]
+  ['voidcell',['voidCell',['../class_fluid_sim_1_1_fluid_manager.html#aed946c375f76e067c3bc1ebbfd5be412',1,'FluidSim::FluidManager']]]
 ];

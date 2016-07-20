@@ -1,7 +1,6 @@
 var hierarchy =
 [
     [ "FluidSim.FluidManager", "class_fluid_sim_1_1_fluid_manager.html", null ],
-    [ "FluidSim.Gas", "class_fluid_sim_1_1_gas.html", null ],
     [ "FluidSim.ICell", "interface_fluid_sim_1_1_i_cell.html", [
       [ "FluidSim.Cell", "class_fluid_sim_1_1_cell.html", null ]
     ] ],
