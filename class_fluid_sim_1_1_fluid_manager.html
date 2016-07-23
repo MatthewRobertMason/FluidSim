@@ -70,7 +70,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -120,28 +119,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a742b4706fe2ffbe99b0671833cc6ec49"><td class="memItemLeft" align="right" valign="top">Guid&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#a742b4706fe2ffbe99b0671833cc6ec49">Add</a> (<a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> c)</td></tr>
 <tr class="memdesc:a742b4706fe2ffbe99b0671833cc6ec49"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the cell isn't in a set then add it to one, otherwise add it to the existing set then add the set for updating  <a href="#a742b4706fe2ffbe99b0671833cc6ec49">More...</a><br /></td></tr>
 <tr class="separator:a742b4706fe2ffbe99b0671833cc6ec49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe968711b65abb3a59381f6ab5949b0f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#abe968711b65abb3a59381f6ab5949b0f">ExpandPocket</a> (Guid set)</td></tr>
-<tr class="memdesc:abe968711b65abb3a59381f6ab5949b0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">iterate through the cells and add their neighbours to the current pocket, it is assumed that the pocket exists already  <a href="#abe968711b65abb3a59381f6ab5949b0f">More...</a><br /></td></tr>
-<tr class="separator:abe968711b65abb3a59381f6ab5949b0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3d739abaf344185f3de682c72c7ac27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ad3d739abaf344185f3de682c72c7ac27">JoinToQueue</a> (Queue&lt; <a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> &gt; lhs, IEnumerable&lt; <a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> &gt; rhs)</td></tr>
-<tr class="separator:ad3d739abaf344185f3de682c72c7ac27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a340f33bf7cf9dfcf2fc7ab0aeebeb446"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#a340f33bf7cf9dfcf2fc7ab0aeebeb446">joinGasPockets</a> (Guid lhs, Guid rhs)</td></tr>
-<tr class="memdesc:a340f33bf7cf9dfcf2fc7ab0aeebeb446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joins two gas pockets  <a href="#a340f33bf7cf9dfcf2fc7ab0aeebeb446">More...</a><br /></td></tr>
-<tr class="separator:a340f33bf7cf9dfcf2fc7ab0aeebeb446"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca303f8fd5d5cdedbf3d2223e38aa435"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#aca303f8fd5d5cdedbf3d2223e38aa435">HsGetFirst</a> (HashSet&lt; <a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> &gt; set)</td></tr>
-<tr class="separator:aca303f8fd5d5cdedbf3d2223e38aa435"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab32dbd4ae894f1a8b04c583f82432ab9"><td class="memItemLeft" align="right" valign="top">Guid&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ab32dbd4ae894f1a8b04c583f82432ab9">HsGetFirst</a> (HashSet&lt; Guid &gt; set)</td></tr>
-<tr class="separator:ab32dbd4ae894f1a8b04c583f82432ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afda7f6f601c0e8eef091ea52b5bfb8ec"><td class="memItemLeft" align="right" valign="top">List&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#afda7f6f601c0e8eef091ea52b5bfb8ec">GasKeysToList</a> (Dictionary&lt; int, double &gt;.KeyCollection keys)</td></tr>
-<tr class="separator:afda7f6f601c0e8eef091ea52b5bfb8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab87c3f1019a9c9afbc862f4532066764"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fluid_sim_1_1_cell.html">Cell</a>[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ab87c3f1019a9c9afbc862f4532066764">HashSetToArray</a> (HashSet&lt; <a class="el" href="class_fluid_sim_1_1_cell.html">Cell</a> &gt; hsc)</td></tr>
-<tr class="separator:ab87c3f1019a9c9afbc862f4532066764"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5bc62d2ccb6534de75e04ba07afc1db"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ae5bc62d2ccb6534de75e04ba07afc1db">ProcessGasPocket</a> (int stepsSoFar)</td></tr>
-<tr class="memdesc:ae5bc62d2ccb6534de75e04ba07afc1db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process a given gas pocket  <a href="#ae5bc62d2ccb6534de75e04ba07afc1db">More...</a><br /></td></tr>
-<tr class="separator:ae5bc62d2ccb6534de75e04ba07afc1db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5feb39ea3749d8e8fd3020aee365d061"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#a5feb39ea3749d8e8fd3020aee365d061">Process</a> ()</td></tr>
-<tr class="memdesc:a5feb39ea3749d8e8fd3020aee365d061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process Simulation Steps  <a href="#a5feb39ea3749d8e8fd3020aee365d061">More...</a><br /></td></tr>
-<tr class="separator:a5feb39ea3749d8e8fd3020aee365d061"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ce4ab9fa61734f39237dda6a45b5ac0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#a3ce4ab9fa61734f39237dda6a45b5ac0">Update</a> ()</td></tr>
 <tr class="memdesc:a3ce4ab9fa61734f39237dda6a45b5ac0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update is called once per frame, useful for testing frame counts or if you have a special game loop  <a href="#a3ce4ab9fa61734f39237dda6a45b5ac0">More...</a><br /></td></tr>
 <tr class="separator:a3ce4ab9fa61734f39237dda6a45b5ac0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,14 +128,14 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ae1ed4510e2a495ad556586f10d43fce3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fluid_sim_1_1_world.html">World</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ae1ed4510e2a495ad556586f10d43fce3">world</a></td></tr>
-<tr class="separator:ae1ed4510e2a495ad556586f10d43fce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5f72d98c1b8df4e6186d011ecaf1cd6"><td class="memItemLeft" align="right" valign="top">string[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ab5f72d98c1b8df4e6186d011ecaf1cd6">GasTypes</a></td></tr>
-<tr class="separator:ab5f72d98c1b8df4e6186d011ecaf1cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae66eb5228a318256d4fac050f1250550"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ae66eb5228a318256d4fac050f1250550">MAX_NUMBER_TO_PROCESS</a> = 5000</td></tr>
 <tr class="separator:ae66eb5228a318256d4fac050f1250550"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed946c375f76e067c3bc1ebbfd5be412"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_fluid_sim_1_1_cell.html">Cell</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#aed946c375f76e067c3bc1ebbfd5be412">voidCell</a></td></tr>
-<tr class="separator:aed946c375f76e067c3bc1ebbfd5be412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b9c1cdb6b96274dc852673cdec7b552"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_fluid_sim_1_1_i_world.html">IWorld</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#a3b9c1cdb6b96274dc852673cdec7b552">world</a></td></tr>
+<tr class="separator:a3b9c1cdb6b96274dc852673cdec7b552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5f72d98c1b8df4e6186d011ecaf1cd6"><td class="memItemLeft" align="right" valign="top">string[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ab5f72d98c1b8df4e6186d011ecaf1cd6">GasTypes</a></td></tr>
+<tr class="separator:ab5f72d98c1b8df4e6186d011ecaf1cd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad70f4daf874806f125fdfbccc9f2e0ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_fluid_sim_1_1_fluid_manager.html#ad70f4daf874806f125fdfbccc9f2e0ba">voidCell</a></td></tr>
+<tr class="separator:ad70f4daf874806f125fdfbccc9f2e0ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a62942fa60707d82c2b4b193e11aad12e"></a>
@@ -194,204 +171,11 @@ Public Attributes</h2></td></tr>
 <p>If the cell isn't in a set then add it to one, otherwise add it to the existing set then add the set for updating </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">c</td><td>The <a class="el" href="class_fluid_sim_1_1_cell.html">Cell</a> you're trying to simulate</td></tr>
+    <tr><td class="paramname">c</td><td>The Cell you're trying to simulate</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The guid to the set containing the <a class="el" href="class_fluid_sim_1_1_cell.html">Cell</a></dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="abe968711b65abb3a59381f6ab5949b0f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int FluidSim.FluidManager.ExpandPocket </td>
-          <td>(</td>
-          <td class="paramtype">Guid&#160;</td>
-          <td class="paramname"><em>set</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>iterate through the cells and add their neighbours to the current pocket, it is assumed that the pocket exists already </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">set</td><td>The gas pocket that is to be expanded</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="afda7f6f601c0e8eef091ea52b5bfb8ec"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">List&lt;int&gt; FluidSim.FluidManager.GasKeysToList </td>
-          <td>(</td>
-          <td class="paramtype">Dictionary&lt; int, double &gt;.KeyCollection&#160;</td>
-          <td class="paramname"><em>keys</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab87c3f1019a9c9afbc862f4532066764"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_fluid_sim_1_1_cell.html">Cell</a> [] FluidSim.FluidManager.HashSetToArray </td>
-          <td>(</td>
-          <td class="paramtype">HashSet&lt; <a class="el" href="class_fluid_sim_1_1_cell.html">Cell</a> &gt;&#160;</td>
-          <td class="paramname"><em>hsc</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aca303f8fd5d5cdedbf3d2223e38aa435"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> FluidSim.FluidManager.HsGetFirst </td>
-          <td>(</td>
-          <td class="paramtype">HashSet&lt; <a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> &gt;&#160;</td>
-          <td class="paramname"><em>set</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ab32dbd4ae894f1a8b04c583f82432ab9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Guid FluidSim.FluidManager.HsGetFirst </td>
-          <td>(</td>
-          <td class="paramtype">HashSet&lt; Guid &gt;&#160;</td>
-          <td class="paramname"><em>set</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a340f33bf7cf9dfcf2fc7ab0aeebeb446"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int FluidSim.FluidManager.joinGasPockets </td>
-          <td>(</td>
-          <td class="paramtype">Guid&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Guid&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Joins two gas pockets </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">lhs</td><td>The GUID of the left hashset</td></tr>
-    <tr><td class="paramname">rhs</td><td>The GUID of the left hashset</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the number of items added</dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ad3d739abaf344185f3de682c72c7ac27"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void FluidSim.FluidManager.JoinToQueue </td>
-          <td>(</td>
-          <td class="paramtype">Queue&lt; <a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> &gt;&#160;</td>
-          <td class="paramname"><em>lhs</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">IEnumerable&lt; <a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> &gt;&#160;</td>
-          <td class="paramname"><em>rhs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a5feb39ea3749d8e8fd3020aee365d061"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int FluidSim.FluidManager.Process </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Process Simulation Steps </p>
-<dl class="section return"><dt>Returns</dt><dd>the number of steps performed</dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ae5bc62d2ccb6534de75e04ba07afc1db"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int FluidSim.FluidManager.ProcessGasPocket </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>stepsSoFar</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Process a given gas pocket </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">stepsSoFar</td><td>The steps so far (if any)</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>The steps taken</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The guid to the set containing the Cell</dd></dl>
 
 </div>
 </div>
@@ -409,7 +193,7 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Update is called once per frame, useful for testing frame counts or if you have a special game loop </p>
-<dl class="section return"><dt>Returns</dt><dd>True if there is more work to do, i.e the state machine isn't currently in WAITING</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if there is more work to do, i.e the state machine isn't currently in the WAITING state</dd></dl>
 
 </div>
 </div>
@@ -456,24 +240,24 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aed946c375f76e067c3bc1ebbfd5be412"></a>
+<a class="anchor" id="ad70f4daf874806f125fdfbccc9f2e0ba"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_fluid_sim_1_1_cell.html">Cell</a> FluidSim.FluidManager.voidCell</td>
+          <td class="memname"><a class="el" href="interface_fluid_sim_1_1_i_cell.html">ICell</a> FluidSim.FluidManager.voidCell</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="ae1ed4510e2a495ad556586f10d43fce3"></a>
+<a class="anchor" id="a3b9c1cdb6b96274dc852673cdec7b552"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_fluid_sim_1_1_world.html">World</a> FluidSim.FluidManager.world</td>
+          <td class="memname"><a class="el" href="interface_fluid_sim_1_1_i_world.html">IWorld</a> FluidSim.FluidManager.world</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -481,7 +265,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>G:/_Git/FluidSim/FluidSim/FluidSim/FluidManager.cs</li>
+<li>G:/_Git/FluidSim/FluidSimCore/ClassLibrary1/FluidManager.cs</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['fluidmanager',['FluidManager',['../class_fluid_sim_1_1_fluid_manager.html',1,'FluidSim']]]
+  ['icell',['ICell',['../interface_fluid_sim_1_1_i_cell.html',1,'FluidSim']]],
+  ['iworld',['IWorld',['../interface_fluid_sim_1_1_i_world.html',1,'FluidSim']]]
 ];

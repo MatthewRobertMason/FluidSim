@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['fluidmanager',['FluidManager',['../class_fluid_sim_1_1_fluid_manager.html',1,'FluidSim']]],
-  ['fluidmanager',['FluidManager',['../class_fluid_sim_1_1_fluid_manager.html#a62942fa60707d82c2b4b193e11aad12e',1,'FluidSim::FluidManager']]],
-  ['fluidsim',['FluidSim',['../namespace_fluid_sim.html',1,'']]]
+  ['gasses',['Gasses',['../interface_fluid_sim_1_1_i_cell.html#acd56336b27f0b0e3098ee9623c62c3de',1,'FluidSim::ICell']]],
+  ['gastypes',['GasTypes',['../class_fluid_sim_1_1_fluid_manager.html#ab5f72d98c1b8df4e6186d011ecaf1cd6',1,'FluidSim::FluidManager']]]
 ];

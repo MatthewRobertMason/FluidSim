@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cell',['Cell',['../class_fluid_sim_1_1_cell.html',1,'FluidSim']]]
+  ['fluidmanager',['FluidManager',['../class_fluid_sim_1_1_fluid_manager.html',1,'FluidSim']]]
 ];

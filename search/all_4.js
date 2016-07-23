@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['gaskeystolist',['GasKeysToList',['../class_fluid_sim_1_1_fluid_manager.html#afda7f6f601c0e8eef091ea52b5bfb8ec',1,'FluidSim::FluidManager']]],
-  ['gasses',['Gasses',['../class_fluid_sim_1_1_cell.html#a1799c80874957dc9af19d93a6acbcb6b',1,'FluidSim.Cell.Gasses()'],['../interface_fluid_sim_1_1_i_cell.html#acd56336b27f0b0e3098ee9623c62c3de',1,'FluidSim.ICell.Gasses()']]],
-  ['gastypes',['GasTypes',['../class_fluid_sim_1_1_fluid_manager.html#ab5f72d98c1b8df4e6186d011ecaf1cd6',1,'FluidSim::FluidManager']]]
+  ['icell',['ICell',['../interface_fluid_sim_1_1_i_cell.html',1,'FluidSim']]],
+  ['id',['ID',['../interface_fluid_sim_1_1_i_cell.html#a55e2a1a684c1bc1246f4d77dbc9eabe1',1,'FluidSim::ICell']]],
+  ['iworld',['IWorld',['../interface_fluid_sim_1_1_i_world.html',1,'FluidSim']]]
 ];
