@@ -106,7 +106,7 @@ namespace FluidSim
         {
             int toReturn = gasPockets[rhs].Count;
 
-            foreach (Cell c in gasPockets[rhs])
+            foreach (ICell c in gasPockets[rhs])
             {
                 c.OwningPocket = lhs;
             }
@@ -145,11 +145,11 @@ namespace FluidSim
             return list;
         }
 
-        private Cell[] HashSetToArray(HashSet<Cell> hsc)
+        private ICell[] HashSetToArray(HashSet<ICell> hsc)
         {
-            Cell[] cells = new Cell[hsc.Count];
+            ICell[] cells = new ICell[hsc.Count];
             int i = 0;
-            foreach (Cell c in hsc)
+            foreach (ICell c in hsc)
             {
                 cells[i++] = c;
             }
